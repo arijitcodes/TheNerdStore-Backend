@@ -7,6 +7,9 @@ const cors = require("cors");
 
 const app = express();
 
+// Routes Components
+const authRoutes = require("./routes/auth");
+
 // MongoDB Connection
 mongoose
   .connect(process.env.mongodbURI, {
@@ -25,6 +28,9 @@ mongoose
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
+
+// Routes
+app.use("/api", authRoutes);
 
 // Defining Express Server port to Listen on
 const PORT = process.env.PORT || 5000;
