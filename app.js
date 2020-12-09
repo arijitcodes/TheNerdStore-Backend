@@ -1,6 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-require("dotenv").config();
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const app = express();
 
@@ -17,6 +20,11 @@ mongoose
   .catch((error) => {
     console.error(error);
   });
+
+// Middlewares
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(cors());
 
 // Defining Express Server port to Listen on
 const PORT = process.env.PORT || 5000;
