@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
-const { v5: uuid } = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 // Defining User Schema
 const userSchema = new mongoose.Schema(
@@ -45,10 +45,10 @@ const userSchema = new mongoose.Schema(
 
 // Defining Virtual Functions - setters and getters
 userSchema
-  .virtual()
+  .virtual("password")
   .set(function (password) {
     this._password = password;
-    this.salt = uuid();
+    this.salt = uuidv4();
     this.encryptedPassword = this.securePassword(password);
   })
   .get(function () {
@@ -56,7 +56,7 @@ userSchema
   });
 
 // Defining Schema Methods
-userSchema.method = {
+userSchema.methods = {
   //
   // To Authenticate, returns true if encrypted password and input password are same
   authenticate: function (plainPassword) {
@@ -78,4 +78,4 @@ userSchema.method = {
   },
 };
 
-module.exports = mongoose.model("Users", userSchema);
+module.exports = mongoose.model("User", userSchema);
