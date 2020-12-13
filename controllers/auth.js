@@ -64,7 +64,7 @@ exports.signin = (req, res) => {
 
     // Put token in cookie
     res.cookie("token", token, { expire: new Date() + 5555 });
-    console.log(user);
+
     // Sending response
     const { _id, name, email, role } = user;
     return res.json({
@@ -75,7 +75,6 @@ exports.signin = (req, res) => {
 };
 
 exports.signout = (req, res) => {
-  res.json({
-    message: "User Signed Out!",
-  });
+  res.clearCookie("token");
+  return res.json({ message: "User Signed out successfully!" });
 };
