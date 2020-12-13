@@ -3,6 +3,7 @@ const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
 
+// Signup Controller
 exports.signup = (req, res) => {
   // Checking if there are any errors from the Body Validation in Routes
   const errors = validationResult(req);
@@ -29,6 +30,7 @@ exports.signup = (req, res) => {
   });
 };
 
+// Signin Controller
 exports.signin = (req, res) => {
   //
   // Checking if there are any errors from the Body Validation in Routes
@@ -74,7 +76,36 @@ exports.signin = (req, res) => {
   });
 };
 
+// Signout Controller
 exports.signout = (req, res) => {
   res.clearCookie("token");
   return res.json({ message: "User Signed out successfully!" });
+};
+
+// isSignedIn Middleware - for Protected Routes
+exports.isSignedIn = expressJwt({
+  secret: process.env.JWTSecret,
+  userProperty: "auth",
+});
+
+// Custom Middlewares
+
+// Check if User is Authenticated - Mainly for User Profile/Activity purpose - If the user is permitted to make the chnages they are trying to.
+exports.isAuthenticated = (req, res, next) => {
+  let checker = req.profile && req.auth && req.auth._id === req.profile._id;
+
+  if (!checker) {
+    return res.status(403).json({ err: "Access Denied!" });
+  }
+
+  next();
+};
+
+// Check if User is Admin
+exports.isAdmin = (req, res, next) => {
+  if (req.profile.role === 0) {
+    return res.status(403).json({ err: "You are Not Admin! Access Denied!" });
+  }
+
+  next();
 };
