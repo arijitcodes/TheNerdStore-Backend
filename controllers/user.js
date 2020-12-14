@@ -23,3 +23,21 @@ exports.getUser = (req, res) => {
 
   return res.json(req.profile);
 };
+
+// Update User
+exports.updateUser = (req, res) => {
+  User.findByIdAndUpdate(
+    { _id: req.profile._id },
+    { $set: req.body },
+    { new: true, useFindAndModify: false },
+    (error, user) => {
+      if (error || !user) {
+        return res.status(400).json({ err: "Update failed!" });
+      }
+
+      user.salt = undefined;
+      user.encryptedPassword = undefined;
+      return res.json(user);
+    }
+  );
+};
