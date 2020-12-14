@@ -4,6 +4,7 @@ const router = express.Router();
 // Controller Components
 const {
   getCategoryById,
+  createCategory,
   getCategory,
   getAllCategory,
   updateCategory,
