@@ -9,6 +9,7 @@ const app = express();
 
 // Routes Components
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
 // MongoDB Connection
 mongoose
@@ -31,6 +32,7 @@ app.use(cors());
 
 // Routes
 app.use("/api", authRoutes);
+app.use("/api", userRoutes);
 
 // Defining Express Server port to Listen on
 const PORT = process.env.PORT || 5000;
