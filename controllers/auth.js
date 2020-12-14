@@ -92,7 +92,7 @@ exports.isSignedIn = expressJwt({
 
 // Check if User is Authenticated - Mainly for User Profile/Activity purpose - If the user is permitted to make the chnages they are trying to.
 exports.isAuthenticated = (req, res, next) => {
-  let checker = req.profile && req.auth && req.auth._id === req.profile._id;
+  let checker = req.profile && req.auth && req.auth._id == req.profile._id;
 
   if (!checker) {
     return res.status(403).json({ err: "Access Denied!" });
