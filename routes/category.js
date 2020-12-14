@@ -6,6 +6,8 @@ const {
   getCategoryById,
   getCategory,
   getAllCategory,
+  updateCategory,
+  deleteCategory,
 } = require("../controllers/category");
 const { getUserById } = require("../controllers/user");
 const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
@@ -33,9 +35,31 @@ router.post(
 // @Access: Public
 router.get("/category/:categoryId", getCategory);
 
-// @Route:  GET - /category/categoryId
+// @Route:  GET - /categories
 // @Desc:   Get all Categories
 // @Access: Public
 router.get("/categories", getAllCategory);
+
+// @Route:  UPDATE - /category/categoryId
+// @Desc:   Update a Category
+// @Access: Private (Admin Only)
+router.put(
+  "/category/:categoryId/:userId",
+  isSignedIn,
+  isAuthenticated,
+  isAdmin,
+  updateCategory
+);
+
+// @Route:  DELETE - /category/categoryId
+// @Desc:   Delete a Category
+// @Access: Private (Admin Only)
+router.delete(
+  "/category/:categoryId/:userId",
+  isSignedIn,
+  isAuthenticated,
+  isAdmin,
+  deleteCategory
+);
 
 module.exports = router;
