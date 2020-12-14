@@ -1,4 +1,7 @@
 const User = require("../models/user");
+const { Order } = require("../models/order");
+
+// Custom Middlewares
 
 // Sets 'profile' in 'req' with User by ID of Logged in User  -  Middleware
 exports.getUserById = (req, res, next, id) => {
@@ -11,6 +14,40 @@ exports.getUserById = (req, res, next, id) => {
     next();
   });
 };
+
+// Push Order of User in Purchase List of User Collection
+exports.pushOrderInPurchaseList = (req, res, next) => {
+  let purchases = [];
+
+  // Store all Order Products in purchases array - Locally
+  req.body.order.products.forEach((product) => {
+    purchases.push({
+      _id: product._id,
+      name: product.name,
+      description: product.description,
+      category: product.category,
+      quantity: product.quantity,
+      amount: req.body.order.amount,
+      transaction_id: req.body.order.transaction_id,
+    });
+  });
+
+  // Store the purchases array in DB
+  User.findOneAndUpdate(
+    { _id: req.profile._id },
+    { $push: { purchases: purchases } },
+    { new: true },
+    (error, purchases) => {
+      if (error) {
+        return res.status(400).json({ err: "Unable to save Purchase list!" });
+      }
+    }
+  );
+
+  next();
+};
+
+// Controller Methods
 
 // Get Logged In user's profile
 exports.getUser = (req, res) => {
@@ -35,9 +72,23 @@ exports.updateUser = (req, res) => {
         return res.status(400).json({ err: "Update failed!" });
       }
 
+      // Removing salt, encryptedPassword info from the req.profile section - as the user wont need that.
       user.salt = undefined;
       user.encryptedPassword = undefined;
       return res.json(user);
     }
   );
+};
+
+// Logged In User's Purchase List
+exports.userPurchaseList = (req, res) => {
+  Order.find({ _id: req.profile._id })
+    .populate("user", "_id name")
+    .exec((error, order) => {
+      if (error) {
+        return res.status(400).json({ err: "No Orders Found!" });
+      }
+
+      return res.json(order);
+    });
 };

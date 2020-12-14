@@ -82,13 +82,13 @@ exports.signout = (req, res) => {
   return res.json({ message: "User Signed out successfully!" });
 };
 
+// Custom Middlewares
+
 // isSignedIn Middleware - for Protected Routes
 exports.isSignedIn = expressJwt({
   secret: process.env.JWTSecret,
   userProperty: "auth",
 });
-
-// Custom Middlewares
 
 // Check if User is Authenticated - Mainly for User Profile/Activity purpose - If the user is permitted to make the chnages they are trying to.
 exports.isAuthenticated = (req, res, next) => {
