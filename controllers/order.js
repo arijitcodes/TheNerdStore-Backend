@@ -17,6 +17,8 @@ exports.getOrderById = (req, res, next, id) => {
 };
 
 // Controller Methods
+
+// Create an Order
 exports.createOrder = (req, res) => {
   req.body.order.user = req.profile;
 
@@ -28,4 +30,17 @@ exports.createOrder = (req, res) => {
 
     res.json(order);
   });
+};
+
+// Get All Orders - Admin Only (Private)
+exports.getAllOrders = (req, res) => {
+  Order.find()
+    .populate("user", "_id name")
+    .exec((error, orders) => {
+      if (error) {
+        return res.status(400).json({ err: "No orders found!" });
+      }
+
+      return res.json(orders);
+    });
 };
