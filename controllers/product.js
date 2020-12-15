@@ -26,6 +26,28 @@ exports.photo = (req, res, next) => {
   }
 };
 
+// Update Stock
+exports.updateStock = (req, res, next) => {
+  // Preparing for Mongoose BulkWrite Operation
+  let myOperations = req.body.order.products.map((product) => {
+    return {
+      updateOne: {
+        filter: { _id: product._id },
+        update: { $inc: { stock: -product.count, sold: +product.count } },
+      },
+    };
+  });
+
+  // Mongoose BulkWrite operation
+  Product.bulkWrite(myOperations, {}, (error, products) => {
+    if (error) {
+      return res.status(400).json({ err: "Failed to update stocks!" });
+    }
+
+    next();
+  });
+};
+
 // Controller Methods
 
 // Create Product
