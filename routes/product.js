@@ -7,6 +7,8 @@ const {
   createProduct,
   getProduct,
   photo,
+  updateProduct,
+  deleteProduct,
 } = require("../controllers/product");
 const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
 const { getUserById } = require("../controllers/user");
@@ -17,7 +19,7 @@ router.param("productId", getProductById);
 
 // Routes
 
-// @Route:  POST - /product/create/userId
+// @Route:  POST - /product/create/:userId
 // @Desc:   Create a new Product
 // @Access: Private (Admin Only)
 router.post(
@@ -35,5 +37,27 @@ router.get("/product/:productId", getProduct);
 
 // This sends the photo later on a different request after sending the primary product data.
 router.get("/product/photo/:productId", photo);
+
+// @Route:  PUT - /product/:productId/:userId
+// @Desc:   Update a Product
+// @Access: Private (Admin Only)
+router.put(
+  "/product/:productId/:userId",
+  isSignedIn,
+  isAuthenticated,
+  isAdmin,
+  updateProduct
+);
+
+// @Route:  DELETE - /product/:productId/:userId
+// @Desc:   Delete a Product
+// @Access: Private (Admin Only)
+router.delete(
+  "/product/:productId/:userId",
+  isSignedIn,
+  isAuthenticated,
+  isAdmin,
+  deleteProduct
+);
 
 module.exports = router;
