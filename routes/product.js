@@ -2,7 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 // Controller Components
-const { getProductById, createProduct } = require("../controllers/product");
+const {
+  getProductById,
+  createProduct,
+  getProduct,
+  photo,
+} = require("../controllers/product");
 const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
 const { getUserById } = require("../controllers/user");
 
@@ -22,5 +27,13 @@ router.post(
   isAdmin,
   createProduct
 );
+
+// @Route:  GET - /product/:productId
+// @Desc:   Get a Product
+// @Access: Public
+router.get("/product/:productId", getProduct);
+
+// This sends the photo later on a different request after sending the primary product data.
+router.get("/product/photo/:productId", photo);
 
 module.exports = router;
