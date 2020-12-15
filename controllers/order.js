@@ -44,3 +44,23 @@ exports.getAllOrders = (req, res) => {
       return res.json(orders);
     });
 };
+
+// Get order status
+exports.getOrderStatus = (req, res) => {
+  res.json(Order.schema.path("status").enumValues);
+};
+
+// Update Status - Private (Admin Only)
+exports.updateStatus = (req, res) => {
+  Order.update(
+    { _id: req.body.orderId },
+    { $set: { status: req.body.status } },
+    (error, order) => {
+      if (error) {
+        return res.status(400).json({ err: "Cannot update Order Status!" });
+      }
+
+      return res.json(order);
+    }
+  );
+};

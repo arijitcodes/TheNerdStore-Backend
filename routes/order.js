@@ -9,6 +9,8 @@ const {
   getOrderById,
   createOrder,
   getAllOrders,
+  getOrderStatus,
+  updateStatus,
 } = require("../controllers/order");
 
 // Parameter Extractor Middlewares
@@ -39,6 +41,28 @@ router.get(
   isAuthenticated,
   isAdmin,
   getAllOrders
+);
+
+// @Route:  GET - /order/status/:userId
+// @Desc:   Get Order Status
+// @Access: Private (Admin Only)
+router.get(
+  "/order/status/:userId",
+  isSignedIn,
+  isAuthenticated,
+  isAdmin,
+  getOrderStatus
+);
+
+// @Route:  PUT - /order/:orderId/status/:userId
+// @Desc:   Update Order Status of specific order
+// @Access: Private (Admin Only)
+router.put(
+  "/order/:orderId/status/:userId",
+  isSignedIn,
+  isAuthenticated,
+  isAdmin,
+  updateStatus
 );
 
 module.exports = router;
