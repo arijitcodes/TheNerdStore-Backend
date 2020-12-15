@@ -2,7 +2,6 @@ const Product = require("../models/product");
 const formidable = require("formidable");
 const _ = require("lodash");
 const fs = require("fs");
-const { sortBy } = require("lodash");
 
 // Middlewares
 exports.getProductById = (req, res, next, id) => {
