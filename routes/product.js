@@ -6,6 +6,7 @@ const {
   getProductById,
   createProduct,
   getProduct,
+  getAllProducts,
   photo,
   updateProduct,
   deleteProduct,
@@ -37,6 +38,11 @@ router.get("/product/:productId", getProduct);
 
 // This sends the photo later on a different request after sending the primary product data.
 router.get("/product/photo/:productId", photo);
+
+// @Route:  GET - /products
+// @Desc:   Get all Products - List Products
+// @Access: Public
+router.get("/products", getAllProducts);
 
 // @Route:  PUT - /product/:productId/:userId
 // @Desc:   Update a Product

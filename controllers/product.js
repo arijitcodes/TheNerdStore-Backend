@@ -2,6 +2,7 @@ const Product = require("../models/product");
 const formidable = require("formidable");
 const _ = require("lodash");
 const fs = require("fs");
+const { sortBy } = require("lodash");
 
 // Middlewares
 exports.getProductById = (req, res, next, id) => {
@@ -75,6 +76,25 @@ exports.createProduct = (req, res) => {
 exports.getProduct = (req, res) => {
   req.product.photo = undefined;
   return res.json(req.product);
+};
+
+// Get All Products - List Products
+exports.getAllProducts = (req, res) => {
+  let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+  let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+
+  Product.find()
+    .select("-photo")
+    .populate("category")
+    .sort([[sortBy, "asc"]])
+    .limit(limit)
+    .exec((error, products) => {
+      if (error) {
+        return res.status(400).json({ err: "No products found!" });
+      }
+
+      res.json(products);
+    });
 };
 
 // Update a product
