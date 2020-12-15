@@ -168,3 +168,14 @@ exports.deleteProduct = (req, res) => {
     res.json({ message: "Deleted product Successfully!" });
   });
 };
+
+// Get All Unique Categories
+exports.getAllUniqueCategories = (req, res) => {
+  Product.distinct("category", {}, (error, categories) => {
+    if (error) {
+      return res.status(400).json({ err: "No categories found!" });
+    }
+
+    return res.json(categories);
+  });
+};
