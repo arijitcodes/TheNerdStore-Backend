@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const ProductCartSchema = new mongoose.Schema({
   product: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.ObjectId,
     ref: "Product",
   },
   name: String,
@@ -23,7 +23,7 @@ const OrderSchema = new mongoose.Schema(
     },
     updated: Date,
     user: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.ObjectId,
       ref: "User",
     },
   },
