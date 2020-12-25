@@ -35,7 +35,8 @@ exports.createOrder = (req, res) => {
 // Get All Orders - Admin Only (Private)
 exports.getAllOrders = (req, res) => {
   Order.find()
-    .populate("user", "_id name")
+    .populate("user", "_id name lastName")
+    .sort("-createdAt")
     .exec((error, orders) => {
       if (error) {
         return res.status(400).json({ err: "No orders found!" });
