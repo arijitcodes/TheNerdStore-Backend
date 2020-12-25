@@ -59,7 +59,7 @@ exports.getOrderStatus = (req, res) => {
 // Update Status - Private (Admin Only)
 exports.updateStatus = (req, res) => {
   Order.update(
-    { _id: req.body.orderId },
+    { _id: req.order._id },
     { $set: { status: req.body.status } },
     (error, order) => {
       if (error) {

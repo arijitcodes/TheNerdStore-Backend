@@ -44,11 +44,6 @@ router.get(
   getAllOrders
 );
 
-// @Route:  GET - /order/:orderId/:userId
-// @Desc:   Get An Order
-// @Access: Private
-router.get("/order/:orderId/:userId", isSignedIn, isAuthenticated, getOrder);
-
 // @Route:  GET - /order/status/:userId
 // @Desc:   Get Order Status
 // @Access: Private (Admin Only)
@@ -59,6 +54,11 @@ router.get(
   isAdmin,
   getOrderStatus
 );
+
+// @Route:  GET - /order/:orderId/:userId
+// @Desc:   Get An Order
+// @Access: Private
+router.get("/order/:orderId/:userId", isSignedIn, isAuthenticated, getOrder);
 
 // @Route:  PUT - /order/:orderId/status/:userId
 // @Desc:   Update Order Status of specific order
