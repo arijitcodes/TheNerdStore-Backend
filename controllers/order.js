@@ -5,7 +5,7 @@ const { Order, ProductCart } = require("../models/order");
 // Parameter Extractor Middleware
 exports.getOrderById = (req, res, next, id) => {
   Order.findById(id)
-    .populate("products.product", "name price")
+    .populate("user", "_id name lastName")
     .exec((error, order) => {
       if (error) {
         return res.status(400).json({ err: "Order not found!" });
@@ -44,6 +44,11 @@ exports.getAllOrders = (req, res) => {
 
       return res.json(orders);
     });
+};
+
+// Get an Order
+exports.getOrder = (req, res) => {
+  return res.json(req.order);
 };
 
 // Get order status

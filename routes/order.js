@@ -8,6 +8,7 @@ const { updateStock } = require("../controllers/product");
 const {
   getOrderById,
   createOrder,
+  getOrder,
   getAllOrders,
   getOrderStatus,
   updateStatus,
@@ -42,6 +43,11 @@ router.get(
   isAdmin,
   getAllOrders
 );
+
+// @Route:  GET - /order/:orderId/:userId
+// @Desc:   Get An Order
+// @Access: Private
+router.get("/order/:orderId/:userId", isSignedIn, isAuthenticated, getOrder);
 
 // @Route:  GET - /order/status/:userId
 // @Desc:   Get Order Status
