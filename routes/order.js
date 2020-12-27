@@ -12,6 +12,7 @@ const {
   getAllOrders,
   getOrderStatus,
   updateStatus,
+  getOrders,
 } = require("../controllers/order");
 
 // Parameter Extractor Middlewares
@@ -30,7 +31,8 @@ router.post(
   isAuthenticated,
   pushOrderInPurchaseList,
   updateStock,
-  createOrder
+  createOrder,
+  getOrders
 );
 
 // @Route:  GET - /order/all/:userId
@@ -54,6 +56,11 @@ router.get(
   isAdmin,
   getOrderStatus
 );
+
+// @Route:  GET - /orders/:userId
+// @Desc:   Get All Orders of Logged In User
+// @Access: Private
+router.get("/orders/:userId", isSignedIn, isAuthenticated, getOrders);
 
 // @Route:  GET - /order/:orderId/:userId
 // @Desc:   Get An Order
