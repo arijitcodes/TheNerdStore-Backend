@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { check } = require("express-validator");
 
 // Controller Components
 const {
@@ -23,7 +24,22 @@ router.get("/user/:userId", isSignedIn, isAuthenticated, getUser);
 // @Route:  PUT - /user/userId
 // @Desc:   Update an User - by the user itself.
 // @Access: Private
-router.put("/user/:userId", isSignedIn, isAuthenticated, updateUser);
+router.put(
+  "/user/:userId",
+  [
+    check(
+      "name",
+      "First Name is Required & should be atleast 3 characters long!"
+    ).isLength({
+      min: 3,
+    }),
+    check("lastName", "Last Name is Required!").exists({ checkFalsy: true }),
+    check("email", "A valid Email is required!").isEmail(),
+  ],
+  isSignedIn,
+  isAuthenticated,
+  updateUser
+);
 
 // @Route:  GET - /orders/user/userId
 // @Desc:   Get the Order Purchase List of the Logged In User.

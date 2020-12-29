@@ -1,4 +1,7 @@
 const User = require("../models/user");
+const { validationResult } = require("express-validator");
+
+// Model
 const { Order } = require("../models/order");
 
 // Custom Middlewares
@@ -63,6 +66,17 @@ exports.getUser = (req, res) => {
 
 // Update User
 exports.updateUser = (req, res) => {
+  // Checking if there are any errors from the Body Validation in Routes
+  const errors = validationResult(req);
+
+  // If there are errors, respond with the first error
+  if (!errors.isEmpty()) {
+    return res.status(422).json({
+      error: errors.array()[0].msg,
+      parameter: errors.array()[0].param,
+    });
+  }
+
   User.findByIdAndUpdate(
     { _id: req.profile._id },
     { $set: req.body },
