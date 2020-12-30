@@ -34,6 +34,8 @@ router.put(
       min: 3,
     }),
     check("lastName", "Last Name is Required!").exists({ checkFalsy: true }),
+    check("name", "Only Alphabets are allowed in Name!").isAlpha(),
+    check("lastName", "Only Alphabets are allowed in Last Name!").isAlpha(),
     check("email", "A valid Email is required!").isEmail(),
   ],
   isSignedIn,

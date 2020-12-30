@@ -29,7 +29,7 @@ exports.pushOrderInPurchaseList = (req, res, next) => {
       name: product.name,
       description: product.description,
       category: product.category,
-      quantity: product.quantity,
+      quantity: product.count,
       amount: req.body.order.amount,
       transaction_id: req.body.order.transaction_id,
     });
