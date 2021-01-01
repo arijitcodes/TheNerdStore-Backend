@@ -1,10 +1,10 @@
-const User = require("../models/user");
 const { validationResult } = require("express-validator");
 const formidable = require("formidable");
 const _ = require("lodash");
 const fs = require("fs");
 
 // Model
+const User = require("../models/user");
 const { Order } = require("../models/order");
 
 // Custom Middlewares
