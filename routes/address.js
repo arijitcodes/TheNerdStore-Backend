@@ -8,6 +8,7 @@ const { getUserById } = require("../controllers/user");
 const {
   getAddressById,
   createAddress,
+  getAnAddress,
   getPrimaryAddress,
   getAllAddress,
   updateAddress,
@@ -41,6 +42,16 @@ router.get(
   getPrimaryAddress
 );
 
+// @Route:  GET - /address/addressId/userId
+// @Desc:   Get An Address of an User from address id parameter.
+// @Access: Private - isSignedIn, isAuthenticated
+router.get(
+  "/address/:addressId/:userId",
+  isSignedIn,
+  isAuthenticated,
+  getAnAddress
+);
+
 // @Route:  GET - /address/userId
 // @Desc:   Get All Addresses of an User from user id parameter.
 // @Access: Private - isSignedIn, isAuthenticated
@@ -59,9 +70,11 @@ router.put(
 // @Route:  DELETE - /address/addressId/userId
 // @Desc:   Delete an Address for a Logged In User.
 // @Access: Private - isSignedIn, isAuthenticated
-router.post(
+router.delete(
   "/address/:addressId/:userId",
   isSignedIn,
   isAuthenticated,
   deleteAddress
 );
+
+module.exports = router;
