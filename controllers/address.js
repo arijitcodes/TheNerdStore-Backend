@@ -40,6 +40,8 @@ exports.createAddress = (req, res) => {
 exports.getAnAddress = (req, res) => {
   if (req.address) {
     return res.json(req.address);
+  } else {
+    return res.status(400).json({ err: "Invalid Address!" });
   }
 };
 
@@ -71,10 +73,40 @@ exports.getAllAddress = (req, res) => {
 
 // Update An Address
 exports.updateAddress = (req, res) => {
-  //
+  if (req.address) {
+    Address.findByIdAndUpdate(
+      req.address._id,
+      req.body,
+      { new: true },
+      (error, address) => {
+        if (error) {
+          return res
+            .status(400)
+            .json({ err: "Failed to update the Address! Please try again!" });
+        } else {
+          return res.json(address);
+        }
+      }
+    );
+  } else {
+    return res.status(400).json({ err: "Invalid Address!" });
+  }
 };
 
 // Delete An Address
 exports.deleteAddress = (req, res) => {
-  //
+  if (req.address) {
+    const address = new Address(req.address);
+    address.delete((error, address) => {
+      if (error) {
+        return res
+          .status(400)
+          .json({ err: "Can't delete the address! Please try again!" });
+      } else {
+        return res.json(address);
+      }
+    });
+  } else {
+    return res.status(400).json({ err: "Invalid Address!" });
+  }
 };
