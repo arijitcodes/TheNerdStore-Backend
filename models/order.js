@@ -26,6 +26,10 @@ const OrderSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "User",
     },
+    deliveryAddress: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Address",
+    },
   },
   { timestamps: true }
 );

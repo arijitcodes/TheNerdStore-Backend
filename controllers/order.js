@@ -6,6 +6,10 @@ const { Order, ProductCart } = require("../models/order");
 exports.getOrderById = (req, res, next, id) => {
   Order.findById(id)
     .populate("user", "_id name lastName email")
+    .populate(
+      "deliveryAddress",
+      "type address city district state country landmark zipcode"
+    )
     .exec((error, order) => {
       if (error) {
         return res.status(400).json({ err: "Order not found!" });
