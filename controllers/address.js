@@ -21,18 +21,32 @@ exports.getAddressById = (req, res, next, id) => {
 
 // Create Address
 exports.createAddress = (req, res) => {
-  const address = new Address(req.body);
+  let address = null;
 
-  // Saving incoming req in DB
-  address.save((error, address) => {
+  // Checking if First Address Entry, setting primary by default
+  Address.find({ user: req.profile._id }, (error, addresses) => {
     if (error) {
-      console.log(error);
-      return res
-        .status(400)
-        .json({ err: "Failed to save Address! Please Try Again!" });
-    } else {
-      return res.json(address);
+      return res.status(400).json("Server Error!");
     }
+
+    // Checking addresses length and if <= 0, then setting primary as true
+    if (addresses.length <= 0) {
+      req.body.primary = true;
+    }
+
+    address = new Address(req.body);
+
+    // Saving incoming req in DB
+    address.save((error, address) => {
+      if (error) {
+        console.log(error);
+        return res
+          .status(400)
+          .json({ err: "Failed to save Address! Please Try Again!" });
+      } else {
+        return res.json(address);
+      }
+    });
   });
 };
 
