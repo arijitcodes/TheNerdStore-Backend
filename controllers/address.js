@@ -19,6 +19,11 @@ exports.getAddressById = (req, res, next, id) => {
 //
 // Normal Controllers
 
+// Get available address types
+exports.getAddressTypes = (req, res) => {
+  res.json(Address.schema.path("type").enumValues);
+};
+
 // Create Address
 exports.createAddress = (req, res) => {
   let address = null;

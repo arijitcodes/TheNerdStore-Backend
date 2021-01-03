@@ -13,6 +13,7 @@ const {
   getAllAddress,
   updateAddress,
   deleteAddress,
+  getAddressTypes,
 } = require("../controllers/address");
 
 //
@@ -26,6 +27,11 @@ router.param("addressId", getAddressById);
 
 //
 // Routes
+
+// @Route:  GET - /address/types
+// @Desc:   Get the Address Types.
+// @Access: Public
+router.get("/address/types", getAddressTypes);
 
 // @Route:  POST - /address/userId
 // @Desc:   Create an Address for a Logged In User.
