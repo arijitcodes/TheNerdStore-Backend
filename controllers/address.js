@@ -49,10 +49,8 @@ exports.getAnAddress = (req, res) => {
 exports.getPrimaryAddress = (req, res) => {
   Address.findOne({ user: req.profile._id, primary: true }).exec(
     (error, address) => {
-      if (error) {
-        return res
-          .status(400)
-          .json({ err: "No Primary Address found for this User!" });
+      if (error || !address) {
+        return res.status(400).json({ err: "No Primary Address found!" });
       } else {
         return res.json(address);
       }
