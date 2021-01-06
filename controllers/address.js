@@ -88,6 +88,39 @@ exports.getAllAddress = (req, res) => {
   });
 };
 
+// Set and Address as Primary
+exports.setAddressAsPrimary = (req, res) => {
+  if (req.address) {
+    Address.findOneAndUpdate(
+      { user: req.profile._id, primary: true },
+      { primary: false },
+      { new: true },
+      (err, address) => {
+        if (err || !address) {
+          return res
+            .status(400)
+            .json({ err: "Failed to Reset Primary Address!" });
+        } else {
+          const updateAddress = req.address;
+          updateAddress.primary = true;
+
+          updateAddress.save((error, address) => {
+            if (error || !address) {
+              return res
+                .status(400)
+                .json({ err: "Failed to Update new Address as Primary!" });
+            } else {
+              return res.json(address);
+            }
+          });
+        }
+      }
+    );
+  } else {
+    return res.status(400).json({ err: "Invalid Address!" });
+  }
+};
+
 // Update An Address
 exports.updateAddress = (req, res) => {
   if (req.address) {

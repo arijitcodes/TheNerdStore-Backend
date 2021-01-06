@@ -14,6 +14,7 @@ const {
   updateAddress,
   deleteAddress,
   getAddressTypes,
+  setAddressAsPrimary,
 } = require("../controllers/address");
 
 //
@@ -62,6 +63,16 @@ router.get(
 // @Desc:   Get All Addresses of an User from user id parameter.
 // @Access: Private - isSignedIn, isAuthenticated
 router.get("/address/:userId", isSignedIn, isAuthenticated, getAllAddress);
+
+// @Route:  PUT - /address/addressId/userId
+// @Desc:   Update an Address of a Logged In User.
+// @Access: Private - isSignedIn, isAuthenticated
+router.put(
+  "/address/primary/:addressId/:userId",
+  isSignedIn,
+  isAuthenticated,
+  setAddressAsPrimary
+);
 
 // @Route:  PUT - /address/addressId/userId
 // @Desc:   Update an Address of a Logged In User.
