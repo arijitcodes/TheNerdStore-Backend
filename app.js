@@ -45,6 +45,19 @@ app.use("/api", orderRoutes);
 app.use("/api", paymentRoutes);
 app.use("/api", addressRoutes);
 
+// For Heroku Deployment
+// Serve static assets in Production
+if (process.env.NODE_ENV === "production") {
+  // Set static folder
+  app.use(express.static("../projfrontend/build"));
+
+  app.get("*", (req, res) =>
+    res.sendFile(
+      path.resolve(__dirname, "../projfrontend", "build", "index.html")
+    )
+  );
+}
+
 // Defining Express Server port to Listen on
 const PORT = process.env.PORT || 5000;
 
