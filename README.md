@@ -1,4 +1,4 @@
-# The NerdStore - Backend
+# The NerdStore v1.0 - Backend
 
 ## Author
 
@@ -50,5 +50,7 @@ If you have any suggestions, please feel free to leave the suggestions. Construc
 NOTE: This is a demo project. There can be a lot of more features and functionalities that could be added with this.
 
 <hr>
+
+This project is uploaded to display my work. So there will be no setup instructions provided here.
 
 #
